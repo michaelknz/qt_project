@@ -20,20 +20,11 @@ void Main_Window::StartScreebDeleteEvent() {
 }
 
 void Main_Window::keyPressEvent(QKeyEvent* event) {
-	if (event->key() == Qt::Key_W) {
-		glwnd->GetPlayer()->Move_Player(vector3f(0.0f, glwnd->GetPlayer()->Get_playerSpeed(), 0.0f));
-	}
+	glwnd->map[event->key()] = true;
+	QMainWindow::keyPressEvent(event);
+}
 
-	if (event->key() == Qt::Key_S) {
-		glwnd->GetPlayer()->Move_Player(vector3f(0.0f, -glwnd->GetPlayer()->Get_playerSpeed(), 0.0f));
-	}
-
-	if (event->key() == Qt::Key_A) {
-		glwnd->GetPlayer()->Move_Player(vector3f(-glwnd->GetPlayer()->Get_playerSpeed(), 0.0f, 0.0f));
-	}
-
-	if (event->key() == Qt::Key_D) {
-		glwnd->GetPlayer()->Move_Player(vector3f(glwnd->GetPlayer()->Get_playerSpeed(), 0.0f, 0.0f));
-	}
-
+void Main_Window::keyReleaseEvent(QKeyEvent* event) {
+	glwnd->map[event->key()] = false;
+	QMainWindow::keyReleaseEvent(event);
 }

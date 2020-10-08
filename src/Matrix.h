@@ -31,6 +31,9 @@ public:
 	static mat4 Rotate(float angle, vector3f vec);
 	static mat4 Transplon(const mat4& matrix);
 	static mat4 Translate(const vector3f& vec);
+	static mat4 Scale(vector3f vec);
 };
+
+mat4 operator *(const mat4& mat1, const mat4& mat2);
 
 #endif

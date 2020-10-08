@@ -115,10 +115,32 @@ mat4 Matrix::Translate(const vector3f& vec) {
 	out.mas[4] = 0; out.mas[5] = 1; out.mas[6] = 0; out.mas[7] = vec.mas[1];
 	out.mas[8] = 0; out.mas[9] = 0; out.mas[10] = 1; out.mas[11] = vec.mas[2];
 	out.mas[12] = 0; out.mas[13] = 0; out.mas[14] = 0; out.mas[15] = 1;
-	return Transplon(out);
+	return out;
 }
 
 mat4 Matrix::Rotate(float angle, vector3f vec) {
 	mat4 out;
+
+	return out;
+}
+
+mat4 Matrix::Scale(vector3f vec) {
+	mat4 out;
+	out.mas[0] = vec.mas[0]; out.mas[1] = 0.0f; out.mas[2] = 0.0f; out.mas[3] = 0.0f;
+	out.mas[4] = 0.0f; out.mas[5] = vec.mas[1]; out.mas[6] = 0.0f; out.mas[7] = 0.0f;
+	out.mas[8] = 0.0f; out.mas[9] = 0.0f; out.mas[10] = vec.mas[2]; out.mas[11] = 0.0f;
+	out.mas[12] = 0.0f; out.mas[13] = 0.0f; out.mas[14] = 0.0f; out.mas[15] = 1.0f;
+
+	return out;
+}
+
+mat4 operator *(const mat4& mat1, const mat4& mat2) {
+	mat4 out;
+	for (int i = 0; i < 4; ++i) {
+		for (int j = 0; j < 4; ++j) {
+			out.mas[i * 4 + j] = mat1.mas[i * 4 + 0] * mat2.mas[0 * 4 + j] + mat1.mas[i * 4 + 1] * mat2.mas[1 * 4 + j] + mat1.mas[i * 4 + 2] * mat2.mas[2 * 4 + j] + mat1.mas[i * 4 + 3] * mat2.mas[3 * 4 + j];
+		}
+	}
+
 	return out;
 }

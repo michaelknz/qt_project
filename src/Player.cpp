@@ -2,7 +2,7 @@
 
 Player::Player() {
 	player_pos = vector3f(0.0f, 0.0f, 0.0f);
-	speed = 0.2f;
+	speed = 0.05f;
 }
 
 void Player::Move_Player(vector3f vec) {

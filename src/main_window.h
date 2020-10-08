@@ -11,7 +11,7 @@ public:
 	explicit Main_Window(QWidget *parent = 0);
 	~Main_Window();
 	void keyPressEvent(QKeyEvent* event);
-
+	void keyReleaseEvent(QKeyEvent* event);
 public slots:
 	void StartScreebDeleteEvent();
 
