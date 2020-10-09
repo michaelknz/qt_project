@@ -63,3 +63,19 @@ void Shader::bind() {
 void Shader::unbind() {
 	glUseProgram(0);
 }
+
+GLint Shader::GetUniformLocation(const std::string& s) {
+	if (uniform_locations.find(s) != uniform_locations.end()) {
+		return uniform_locations[s];
+	}
+	uniform_locations[s] = glGetUniformLocation(program, s.c_str());
+	return uniform_locations[s];
+}
+
+void Shader::SetUniformMatrix4fv(const std::string& s, const mat4& mat) {
+	glUniformMatrix4fv(GetUniformLocation(s), 1, GL_FALSE, mat.mas);
+}
+
+void Shader::SetUniform3f(const std::string& s, const vector3f& vec) {
+	glUniform3f(GetUniformLocation(s), vec.mas[0], vec.mas[1], vec.mas[2]);
+}

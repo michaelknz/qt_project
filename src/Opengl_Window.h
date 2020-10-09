@@ -17,7 +17,6 @@ class gl_Window :public QOpenGLWidget, protected QOpenGLFunctions {
 public:
 	gl_Window(QWidget* parent = 0);
 	Player* GetPlayer();
-	float Get_delTime();
 	std::unordered_map<int, bool> map;
 private slots:
 	void Loop();

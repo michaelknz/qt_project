@@ -31,23 +31,29 @@ void gl_Window::initializeGL() {
 }
 
 void gl_Window::paintGL() {
+	glClearColor(0.3f, 0.5f, 0.5f, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
 	shader->bind();
+	shader->SetUniformMatrix4fv("model", Matrix::Transplon(Matrix::Translate(vector3f(0.0f, 0.0f, -0.01)) * Matrix::Scale(vector3f(11.0f, 9.0f, 1.0f))));
+	shader->SetUniformMatrix4fv("projection", Matrix::projection(90.0f, 1600.0f / 900.0f, 0.1f, 100.0f));
+	shader->SetUniformMatrix4fv("view", Matrix::lookat(camera->Get_CameraPos(), camera->Get_CameraFront(), camera->Get_CameraUp()));
+	shader->SetUniform3f("color", vector3f(0.0f, 0.0f, 1.0f));
+	mesh->Draw_Mesh();
+	shader->unbind();
+
+	vector3f del_pos(map[Qt::Key_D] * player->Get_playerSpeed() - map[Qt::Key_A] * player->Get_playerSpeed(), map[Qt::Key_W] * player->Get_playerSpeed() - map[Qt::Key_S] * player->Get_playerSpeed(), 0.0);
+	player->Move_Player(del_pos);
+
+	shader->bind();
+	shader->SetUniformMatrix4fv("model", Matrix::Transplon(Matrix::Translate(player->Get_playerPos()) * Matrix::Scale(vector3f(0.25f, 0.5f, 1.0f))));
+	shader->SetUniform3f("color", vector3f(1.0f, 0.0f, 0.0f));
 	mesh->Draw_Mesh();
 	shader->unbind();
 }
 
 void gl_Window::Loop() {
 	makeCurrent();
-	glClearColor(0.3f, 0.5f, 0.5f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	vector3f del_pos(map[Qt::Key_D] * player->Get_playerSpeed() - map[Qt::Key_A] * player->Get_playerSpeed(), map[Qt::Key_W] * player->Get_playerSpeed() - map[Qt::Key_S] * player->Get_playerSpeed(), 0.0);
-	player->Move_Player(del_pos);
-	shader->bind();
-	glUniformMatrix4fv(glGetUniformLocation(shader->GetProgram(), "model"), 1, GL_FALSE, Matrix::Transplon(Matrix::Translate(player->Get_playerPos())*Matrix::Scale(vector3f(0.5f,1.0f,1.0f))).mas);
-	glUniformMatrix4fv(glGetUniformLocation(shader->GetProgram(), "projection"), 1, GL_FALSE, Matrix::projection(90.0f, 800.0f / 600.0f, 0.1f, 100.0f).mas);
-	glUniformMatrix4fv(glGetUniformLocation(shader->GetProgram(), "view"), 1, GL_FALSE, Matrix::lookat(camera->Get_CameraPos(), camera->Get_CameraFront(), camera->Get_CameraUp()).mas);
-	glUniform3f(glGetUniformLocation(shader->GetProgram(), "color"), 1.0f, 1.0f, 0.0f);
-	shader->unbind();
 	this->update();
 	doneCurrent();
 }
