@@ -33,6 +33,8 @@ set (project_ui
 qt5_wrap_ui(project_header_wrapped ${project_ui})
 qt5_wrap_cpp(project_source_mac ${project_header})
 
+include_directories(include)
+
 add_executable(${PROJECT_NAME} ${project_header} ${project_source} 
     ${project_source_mac} ${project_header_wrapped})
 
@@ -40,10 +42,13 @@ file( COPY ${CMAKE_CURRENT_SOURCE_DIR}/src/basic.vs DESTINATION ${CMAKE_CURRENT_
 file( COPY ${CMAKE_CURRENT_SOURCE_DIR}/src/basic.fs DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Debug )
 file( COPY ${CMAKE_CURRENT_SOURCE_DIR}/src/basic.vs DESTINATION ${CMAKE_CURRENT_BINARY_DIR} )
 file( COPY ${CMAKE_CURRENT_SOURCE_DIR}/src/basic.fs DESTINATION ${CMAKE_CURRENT_BINARY_DIR} )
+file( COPY ${CMAKE_CURRENT_SOURCE_DIR}/res/sheet.png DESTINATION ${CMAKE_CURRENT_BINARY_DIR} )
+
 
 target_link_libraries(${PROJECT_NAME}
     PUBLIC
     Qt5::Core
     Qt5::Gui
     Qt5::Widgets
-    Qt5::OpenGL)
+    Qt5::OpenGL
+    ${CMAKE_CURRENT_SOURCE_DIR}/lib/libxl.lib)
