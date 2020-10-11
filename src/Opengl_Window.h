@@ -9,6 +9,7 @@
 #include "Matrix.h"
 #include "Camera.h"
 #include "Player.h"
+#include "Texture.h"
 #include <unordered_map>
 
 class gl_Window :public QOpenGLWidget, protected QOpenGLFunctions {
@@ -30,4 +31,5 @@ private:
 	Shader* shader;
 	Camera* camera;
 	Player* player;
+	Texture* texture;
 };

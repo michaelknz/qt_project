@@ -15,7 +15,8 @@ set(project_source
     src/Mesh.cpp
     src/Matrix.cpp
     src/Camera.cpp
-    src/Player.cpp)
+    src/Player.cpp
+    src/Texture.cpp)
     
 set(project_header
     src/main_window.h
@@ -25,7 +26,8 @@ set(project_header
     src/Mesh.h
     src/Matrix.h
     src/Camera.h
-    src/Player.h)
+    src/Player.h
+    src/Texture.h)
 
 set (project_ui
     src/start_screen.ui)

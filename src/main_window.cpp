@@ -3,8 +3,8 @@
 Main_Window::Main_Window(QWidget* parent):
 	QMainWindow(parent)
 {
-	this->setGeometry(100, 100, 1600, 1200);
-	this->setFixedSize(1600, 900);
+	this->setGeometry(100, 100, 1600, 800);
+	this->setFixedSize(1600, 800);
 	st = new Start_Screen();
 	this->setCentralWidget(st);
 	QObject::connect(st, SIGNAL(destroyed()), this, SLOT(StartScreebDeleteEvent()));

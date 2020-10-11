@@ -1,3 +1,6 @@
+#ifndef SHADER_H
+#define SHADER_H
+
 #include <fstream>
 #include <string>
 #include <qopengl.h>
@@ -15,6 +18,7 @@ public:
 	GLint GetUniformLocation(const std::string& s);
 	void SetUniformMatrix4fv(const std::string& s, const mat4& mat);
 	void SetUniform3f(const std::string& s, const vector3f& vec);
+	void SetUniform1i(const std::string& s, int code);
 	void bind();
 	void unbind();
 private:
@@ -22,3 +26,5 @@ private:
 	GLuint program;
 	std::unordered_map<std::string,GLint> uniform_locations;
 };
+
+#endif
