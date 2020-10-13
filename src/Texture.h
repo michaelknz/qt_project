@@ -1,3 +1,6 @@
+#ifndef TEXTURE_H
+#define TEXTURE_H
+
 #include <qopengl.h>
 #include <qopenglextrafunctions.h>
 #include <string>
@@ -14,6 +17,11 @@ public:
 	void UseTexture(Shader* shade);
 	void bind();
 	void unbind();
+	unsigned int Width();
+	unsigned int Height();
 private:
 	GLuint texture;
+	unsigned int height;
+	unsigned int width;
 };
+#endif

@@ -4,9 +4,11 @@ Texture::Texture(const std::string& filename) {
 	initializeOpenGLFunctions();
 	glGenTextures(1, &texture);
 	QImage tex = LoadTextureS(filename);
+	height = tex.height();
+	width = tex.width();
 	glBindTexture(GL_TEXTURE_2D, texture);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
@@ -23,7 +25,7 @@ QImage Texture::LoadTextureS(const std::string& filename) {
 	QImage t;
 	QImage b;
 
-	if (!b.load("sheet.png"))
+	if (!b.load(filename.c_str()))
 	{
 
 		QMessageBox::information(NULL, "Error", "Could not load file");
@@ -58,4 +60,12 @@ void Texture::bind() {
 void Texture::unbind() {
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, 0);
+}
+
+unsigned int Texture::Width() {
+	return width;
+}
+
+unsigned int Texture::Height() {
+	return height;
 }

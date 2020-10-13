@@ -19,6 +19,7 @@ public:
 	void SetUniformMatrix4fv(const std::string& s, const mat4& mat);
 	void SetUniform3f(const std::string& s, const vector3f& vec);
 	void SetUniform1i(const std::string& s, int code);
+	void SetUniform1f(const std::string& s, float code);
 	void bind();
 	void unbind();
 private:

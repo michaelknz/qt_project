@@ -87,7 +87,7 @@ mat4 Matrix::projection(float fov, float aspect, float zNear, float zFar) {
 	out.mas[8] = 0.0f; out.mas[9] = 0.0f; out.mas[10] = (zFar + zNear) / (zNear - zFar); out.mas[11] = (2 * zFar * zNear) / (zNear - zFar);
 	out.mas[12] = 0.0f; out.mas[13] = 0.0f; out.mas[14] = -1.0f; out.mas[15] = 0.0f;
 
-	return Transplon(out);
+	return out;
 }
 
 mat4 Matrix::lookat(const vector3f& CameraPos, const vector3f& CameraFront, const vector3f& CameraUp) {
@@ -106,7 +106,7 @@ mat4 Matrix::lookat(const vector3f& CameraPos, const vector3f& CameraFront, cons
 	out.mas[8] = xaxis.mas[2]; out.mas[9] = yaxis.mas[2]; out.mas[10] = -zaxis.mas[2]; out.mas[11] = 0.0f;
 	out.mas[12] = -dot(xaxis, CameraPos); out.mas[13] = -dot(yaxis, CameraPos); out.mas[14] = dot(zaxis, CameraPos); out.mas[15] = 1.0;
 
-	return out;
+	return Transplon(out);
 }
 
 mat4 Matrix::Translate(const vector3f& vec) {

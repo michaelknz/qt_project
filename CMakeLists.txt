@@ -16,7 +16,8 @@ set(project_source
     src/Matrix.cpp
     src/Camera.cpp
     src/Player.cpp
-    src/Texture.cpp)
+    src/Texture.cpp
+    src/MapBg.cpp)
     
 set(project_header
     src/main_window.h
@@ -27,7 +28,8 @@ set(project_header
     src/Matrix.h
     src/Camera.h
     src/Player.h
-    src/Texture.h)
+    src/Texture.h
+    src/MapBg.h)
 
 set (project_ui
     src/start_screen.ui)
@@ -40,11 +42,16 @@ include_directories(include)
 add_executable(${PROJECT_NAME} ${project_header} ${project_source} 
     ${project_source_mac} ${project_header_wrapped})
 
-file( COPY ${CMAKE_CURRENT_SOURCE_DIR}/src/basic.vs DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Debug )
-file( COPY ${CMAKE_CURRENT_SOURCE_DIR}/src/basic.fs DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Debug )
-file( COPY ${CMAKE_CURRENT_SOURCE_DIR}/src/basic.vs DESTINATION ${CMAKE_CURRENT_BINARY_DIR} )
-file( COPY ${CMAKE_CURRENT_SOURCE_DIR}/src/basic.fs DESTINATION ${CMAKE_CURRENT_BINARY_DIR} )
+file( COPY ${CMAKE_CURRENT_SOURCE_DIR}/src/playerShade.vs DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Debug )
+file( COPY ${CMAKE_CURRENT_SOURCE_DIR}/src/playerShade.fs DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Debug )
+file( COPY ${CMAKE_CURRENT_SOURCE_DIR}/src/playerShade.vs DESTINATION ${CMAKE_CURRENT_BINARY_DIR} )
+file( COPY ${CMAKE_CURRENT_SOURCE_DIR}/src/playerShade.fs DESTINATION ${CMAKE_CURRENT_BINARY_DIR} )
+file( COPY ${CMAKE_CURRENT_SOURCE_DIR}/src/mapShade.vs DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Debug )
+file( COPY ${CMAKE_CURRENT_SOURCE_DIR}/src/mapShade.fs DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Debug )
+file( COPY ${CMAKE_CURRENT_SOURCE_DIR}/src/mapShade.vs DESTINATION ${CMAKE_CURRENT_BINARY_DIR} )
+file( COPY ${CMAKE_CURRENT_SOURCE_DIR}/src/mapShade.fs DESTINATION ${CMAKE_CURRENT_BINARY_DIR} )
 file( COPY ${CMAKE_CURRENT_SOURCE_DIR}/res/sheet.png DESTINATION ${CMAKE_CURRENT_BINARY_DIR} )
+file( COPY ${CMAKE_CURRENT_SOURCE_DIR}/res/Hero.png DESTINATION ${CMAKE_CURRENT_BINARY_DIR} )
 
 
 target_link_libraries(${PROJECT_NAME}
