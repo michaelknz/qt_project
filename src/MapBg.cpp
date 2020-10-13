@@ -64,8 +64,8 @@ void MapBg::SetVerts() {
 	verts = new float[Map_height * Map_width * 6 * 5];
 	float del_x = tile_width;
 	float del_y = tile_height;
-	float x = -1.0f;
-	float y = 1.0f;
+	float x = -tile_width * (float)Map_width / 2.0f;
+	float y = tile_height * (float)Map_height / 2.0f;
 	float tmp_x = x;
 	float tmp_y = y;
 	int j = 0;
