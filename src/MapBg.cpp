@@ -4,9 +4,11 @@ MapBg::MapBg() {
 	
 }
 
-void MapBg::Init(const std::string& filename, mat4 view, mat4 proj) {
+void MapBg::Init(const std::string& filename, mat4 view, mat4 proj, vector3f room_pos) {
 	projection = proj;
 	this->view = view;
+	model = Matrix::Translate(room_pos);
+	this->room_pos = room_pos;
 	tile_height = 0.15f;
 	tile_width = 0.15f;
 	texture = new Texture(filename.c_str());
@@ -39,6 +41,10 @@ void MapBg::SetRoomMap() {
 		  "LFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFR"
 		  "LFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFR"
 		  "AUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUB";
+
+	walls.insert('U');
+	walls.insert('R');
+	walls.insert('L');
 }
 
 void MapBg::SetTexMap() {
@@ -91,6 +97,7 @@ void MapBg::DrawMapBg() {
 	texture->bind();
 	shader->SetUniformMatrix4fv("projection", Matrix::Transplon(projection));
 	shader->SetUniformMatrix4fv("view", Matrix::Transplon(view));
+	shader->SetUniformMatrix4fv("model", Matrix::Transplon(model));
 	mesh->Draw_Mesh();
 	texture->unbind();
 	shader->unbind();
@@ -101,9 +108,24 @@ void MapBg::ShutUp() {
 	delete mesh;
 	delete shader;
 	delete[] verts;
-	delete[] Map;
 }
 
 MapBg::~MapBg() {
 
+}
+
+void MapBg::IsWall(const Player& player, std::unordered_map<int, bool>& keys) {
+	vector3f player_pos_in_room = vector3f(player.Get_playerPos().mas[0] - (room_pos.mas[0] - tile_width * (float)Map_width / 2.0f), (room_pos.mas[1] + tile_height * (float)Map_height / 2.0f) - player.Get_playerPos().mas[1], player.Get_playerPos().mas[2]);
+	if (keys[Qt::Key_W] && walls.find(Map[(int)((player_pos_in_room.mas[1] - player.Get_playerSpeed()) / tile_height)*Map_width+(int)(player_pos_in_room.mas[0]/tile_width)]) != walls.end()) {
+		keys[Qt::Key_W] = false;
+	}
+	if (keys[Qt::Key_S] && walls.find(Map[(int)((player_pos_in_room.mas[1] + player.Get_playerSpeed()) / tile_height+0.7f)*Map_width+ (int)(player_pos_in_room.mas[0] / tile_width)]) != walls.end()) {
+		keys[Qt::Key_S] = false;
+	}
+	if (keys[Qt::Key_A] && walls.find(Map[(int)((player_pos_in_room.mas[0] - player.Get_playerSpeed()) / tile_width)+(int)(player_pos_in_room.mas[1]/tile_height)*Map_width]) != walls.end()) {
+		keys[Qt::Key_A] = false;
+	}
+	if (keys[Qt::Key_D] && walls.find(Map[(int)((player_pos_in_room.mas[0] + player.Get_playerSpeed()) / tile_width) + (int)(player_pos_in_room.mas[1] / tile_height) * Map_width]) != walls.end()) {
+		keys[Qt::Key_D] = false;
+	}
 }

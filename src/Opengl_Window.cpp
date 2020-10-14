@@ -27,7 +27,7 @@ void gl_Window::initializeGL() {
 	timer->start(0);
 
 	back = new MapBg;
-	back->Init("sheet.png",view,projection);
+	back->Init("sheet.png", view, projection, vector3f(-0.5f));
 	player = new Player("Hero.png", view, projection);
 }
 
@@ -36,6 +36,7 @@ void gl_Window::paintGL() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	back->DrawMapBg();
+	back->IsWall(*player, map);
 
 	player->Update(map);
 	player->DrawPlayer();
@@ -52,5 +53,7 @@ gl_Window::~gl_Window() {
 	delete player;
 	delete camera;
 	delete timer;
+	back->ShutUp();
+	delete back;
 }
 

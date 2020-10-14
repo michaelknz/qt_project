@@ -28,11 +28,11 @@ void Player::Move_Player(vector3f vec) {
 	model = Matrix::Translate(player_pos);
 }
 
-vector3f Player::Get_playerPos() {
+vector3f Player::Get_playerPos() const {
 	return player_pos;
 }
 
-float Player::Get_playerSpeed() {
+float Player::Get_playerSpeed() const {
 	return speed;
 }
 

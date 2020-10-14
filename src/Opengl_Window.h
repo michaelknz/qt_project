@@ -13,6 +13,7 @@
 #include "MapBg.h"
 #include <unordered_map>
 
+
 class gl_Window :public QOpenGLWidget, protected QOpenGLFunctions {
 
 	Q_OBJECT
