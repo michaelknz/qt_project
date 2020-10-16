@@ -78,3 +78,7 @@ void Player::Update(std::unordered_map<int, bool> map) {
 	vector3f del_pos(map[Qt::Key_D] * Get_playerSpeed() - map[Qt::Key_A] * Get_playerSpeed(), map[Qt::Key_W] * Get_playerSpeed() - map[Qt::Key_S] * Get_playerSpeed(), 0.0);
 	Move_Player(del_pos);
 }
+
+void Player::UpdateCamera(mat4 view) {
+	this->view = view;
+}

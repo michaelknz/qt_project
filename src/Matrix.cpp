@@ -144,3 +144,7 @@ mat4 operator *(const mat4& mat1, const mat4& mat2) {
 
 	return out;
 }
+
+float Matrix::Length2D(vector3f vec1, vector3f vec2) {
+	return sqrt((vec1.mas[0] - vec2.mas[0]) * (vec1.mas[0] - vec2.mas[0]) + (vec1.mas[1] - vec2.mas[1]) * (vec1.mas[1] - vec2.mas[1]));
+}

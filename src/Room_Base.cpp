@@ -1,30 +1,39 @@
-#include "MapBg.h"
+#include "Room_Base.h"
 
-MapBg::MapBg() {
+Room_Base::Room_Base() {
 	
 }
 
-void MapBg::Init(const std::string& filename, mat4 view, mat4 proj, vector3f room_pos) {
+void Room_Base::Init(const std::string& filename, mat4 view, mat4 proj, vector3f room_pos) {
 	projection = proj;
 	this->view = view;
 	model = Matrix::Translate(room_pos);
 	this->room_pos = room_pos;
 	tile_height = 0.15f;
 	tile_width = 0.15f;
+	doors['u'] = -1;
+	doors['d'] = -1;
+	doors['l'] = -1;
+	doors['r'] = -1;
 	texture = new Texture(filename.c_str());
 	shader = new Shader("mapShade");
 	SetRoomMap();
 	SetTexMap();
 	SetVerts();
 	mesh = new Mesh(verts, Map_height * Map_width * 6 * 5);
+	walls.insert('G');
+	walls.insert('K');
+	walls.insert('J');
+	SetTexMapUnit('G', 4, 5, 7, 8);
+	SetTexMapUnit('K', 11, 12, 6, 7);
+	SetTexMapUnit('J', 12, 13, 6, 7);
 }
 
-void MapBg::SetRoomMap() {
+void Room_Base::SetRoomMap() {
 	Map_width = 32;
 	Map_height = 16;
 	tile_tex_width = 8;
 	tile_tex_height = 8;
-	Map = new char[Map_height * Map_width + 1];
 	Map = "EUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUC"
 		  "LFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFR"
 		  "LFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFR"
@@ -47,7 +56,7 @@ void MapBg::SetRoomMap() {
 	walls.insert('L');
 }
 
-void MapBg::SetTexMap() {
+void Room_Base::SetTexMap() {
 	SetTexMapUnit('A', 0, 1, 7, 8);
 	SetTexMapUnit('D', 9, 10, 6, 7);
 	SetTexMapUnit('U', 1, 2, 9, 10);
@@ -59,14 +68,14 @@ void MapBg::SetTexMap() {
 	SetTexMapUnit('E', 0, 1, 9, 10);
 }
 
-void MapBg::SetTexMapUnit(char a, unsigned int minx, unsigned int maxx, unsigned int miny, unsigned int maxy) {
+void Room_Base::SetTexMapUnit(char a, unsigned int minx, unsigned int maxx, unsigned int miny, unsigned int maxy) {
 	TexCoordMap[a].min_x = (float)(minx * (tile_tex_width)) / (float)texture->Width();
 	TexCoordMap[a].max_x = (float)(maxx * (tile_tex_width)) / (float)texture->Width();
 	TexCoordMap[a].min_y = (float)(miny * (tile_tex_height)) / (float)texture->Height();
 	TexCoordMap[a].max_y = (float)(maxy * (tile_tex_height)) / (float)texture->Height();
 }
 
-void MapBg::SetVerts() {
+void Room_Base::SetVerts() {
 	verts = new float[Map_height * Map_width * 6 * 5];
 	float del_x = tile_width;
 	float del_y = tile_height;
@@ -92,7 +101,7 @@ void MapBg::SetVerts() {
 	}
 }
 
-void MapBg::DrawMapBg() {
+void Room_Base::DrawRoom() {
 	shader->bind();
 	texture->bind();
 	shader->SetUniformMatrix4fv("projection", Matrix::Transplon(projection));
@@ -103,18 +112,18 @@ void MapBg::DrawMapBg() {
 	shader->unbind();
 }
 
-void MapBg::ShutUp() {
+void Room_Base::ShutUp() {
 	delete texture;
 	delete mesh;
 	delete shader;
 	delete[] verts;
 }
 
-MapBg::~MapBg() {
+Room_Base::~Room_Base() {
 
 }
 
-void MapBg::IsWall(const Player& player, std::unordered_map<int, bool>& keys) {
+void Room_Base::IsWall(const Player& player, std::unordered_map<int, bool>& keys) {
 	vector3f player_pos_in_room = vector3f(player.Get_playerPos().mas[0] - (room_pos.mas[0] - tile_width * (float)Map_width / 2.0f), (room_pos.mas[1] + tile_height * (float)Map_height / 2.0f) - player.Get_playerPos().mas[1], player.Get_playerPos().mas[2]);
 	if (keys[Qt::Key_W] && walls.find(Map[(int)((player_pos_in_room.mas[1] - player.Get_playerSpeed()) / tile_height)*Map_width+(int)(player_pos_in_room.mas[0]/tile_width)]) != walls.end()) {
 		keys[Qt::Key_W] = false;
@@ -128,4 +137,71 @@ void MapBg::IsWall(const Player& player, std::unordered_map<int, bool>& keys) {
 	if (keys[Qt::Key_D] && walls.find(Map[(int)((player_pos_in_room.mas[0] + player.Get_playerSpeed()) / tile_width) + (int)(player_pos_in_room.mas[1] / tile_height) * Map_width]) != walls.end()) {
 		keys[Qt::Key_D] = false;
 	}
+}
+
+float Room_Base::GetRoomHeight() const{
+	return tile_height * Map_height;
+}
+
+float Room_Base::GetRoomWidth() const {
+	return tile_width * Map_width;
+}
+
+void Room_Base::ResetVerts() {
+	delete[] verts;
+	SetVerts();
+}
+
+void Room_Base::SetDoor(char dir) {
+	if (dir == 'u') {
+		doors['u'] = Map_width / 2;
+		Map[Map_width / 2] = 'G';
+	}
+
+	else if (dir == 'd') {
+		doors['d'] = (Map_height - 1) * Map_width + Map_width / 2;
+		Map[(Map_height - 1) * Map_width + Map_width / 2] = 'G';
+	}
+
+	else if (dir == 'l') {
+		doors['l'] = (Map_height / 2) * Map_width;
+		Map[(Map_height / 2) * Map_width] = 'K';
+	}
+
+	else if (dir == 'r') {
+		doors['r'] = (Map_height / 2) * Map_width + Map_width - 1;
+		Map[(Map_height / 2) * Map_width + Map_width - 1] = 'J';
+	}
+
+	ResetVerts();
+	mesh->SetVertexBufWithTex(verts, Map_height * Map_width * 6 * 5);
+}
+
+vector3f Room_Base::Player_Pos_In_Room(Player* player) {
+	vector3f player_pos_in_room = vector3f(player->Get_playerPos().mas[0] - (room_pos.mas[0] - tile_width * (float)Map_width / 2.0f), (room_pos.mas[1] + tile_height * (float)Map_height / 2.0f) - player->Get_playerPos().mas[1], player->Get_playerPos().mas[2]);
+	return player_pos_in_room;
+}
+
+std::unordered_map<char,int> Room_Base::Get_Doors() const {
+	return doors;
+}
+
+float Room_Base::Get_Tile_Width() const {
+	return tile_width;
+}
+
+float Room_Base::Get_Tile_Height() const {
+	return tile_height;
+}
+
+unsigned int Room_Base::Get_Room_Width_In_Tiles() const {
+	return Map_width;
+}
+
+unsigned int Room_Base::Get_Room_Height_In_Tiles() const {
+	return Map_height;
+}
+
+void Room_Base::UpdateCamera(mat4 view) {
+	this->view = view;
 }

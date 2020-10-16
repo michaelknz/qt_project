@@ -20,11 +20,11 @@ void Main_Window::StartScreebDeleteEvent() {
 }
 
 void Main_Window::keyPressEvent(QKeyEvent* event) {
-	glwnd->map[event->key()] = true;
+	glwnd->key_cache[event->key()] = true;
 	QMainWindow::keyPressEvent(event);
 }
 
 void Main_Window::keyReleaseEvent(QKeyEvent* event) {
-	glwnd->map[event->key()] = false;
+	glwnd->key_cache[event->key()] = false;
 	QMainWindow::keyReleaseEvent(event);
 }

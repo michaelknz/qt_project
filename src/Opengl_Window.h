@@ -10,7 +10,8 @@
 #include "Matrix.h"
 #include "Camera.h"
 #include "Player.h"
-#include "MapBg.h"
+#include "Room_Base.h"
+#include "Level_Base.h"
 #include <unordered_map>
 
 
@@ -20,7 +21,8 @@ class gl_Window :public QOpenGLWidget, protected QOpenGLFunctions {
 public:
 	gl_Window(QWidget* parent = 0);
 	~gl_Window();
-	std::unordered_map<int, bool> map;
+	void Interact_With_Objects();
+	std::unordered_map<int, bool> key_cache;
 private slots:
 	void Loop();
 protected:
@@ -30,8 +32,8 @@ private:
 	QTimer* timer;
 	Camera* camera;
 	Player* player;
-	MapBg* back;
 	mat4 projection;
 	mat4 view;
+	Level_Base* level;
 };
 #endif

@@ -32,6 +32,7 @@ public:
 	static mat4 Transplon(const mat4& matrix);
 	static mat4 Translate(const vector3f& vec);
 	static mat4 Scale(vector3f vec);
+	static float Length2D(vector3f vec1, vector3f vec2);
 };
 
 mat4 operator *(const mat4& mat1, const mat4& mat2);

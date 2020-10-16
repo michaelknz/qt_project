@@ -17,7 +17,8 @@ set(project_source
     src/Camera.cpp
     src/Player.cpp
     src/Texture.cpp
-    src/MapBg.cpp)
+    src/Room_Base.cpp
+    src/Level_Base.cpp)
     
 set(project_header
     src/main_window.h
@@ -29,7 +30,8 @@ set(project_header
     src/Camera.h
     src/Player.h
     src/Texture.h
-    src/MapBg.h)
+    src/Room_Base.h
+    src/Level_Base.h)
 
 set (project_ui
     src/start_screen.ui)
@@ -52,6 +54,8 @@ file( COPY ${CMAKE_CURRENT_SOURCE_DIR}/src/mapShade.vs DESTINATION ${CMAKE_CURRE
 file( COPY ${CMAKE_CURRENT_SOURCE_DIR}/src/mapShade.fs DESTINATION ${CMAKE_CURRENT_BINARY_DIR} )
 file( COPY ${CMAKE_CURRENT_SOURCE_DIR}/res/sheet.png DESTINATION ${CMAKE_CURRENT_BINARY_DIR} )
 file( COPY ${CMAKE_CURRENT_SOURCE_DIR}/res/Hero.png DESTINATION ${CMAKE_CURRENT_BINARY_DIR} )
+file( COPY ${CMAKE_CURRENT_SOURCE_DIR}/res/sheet.png DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Debug )
+file( COPY ${CMAKE_CURRENT_SOURCE_DIR}/res/Hero.png DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Debug )
 
 
 target_link_libraries(${PROJECT_NAME}

@@ -17,6 +17,7 @@ public:
 	float Get_playerSpeed() const;
 	void DrawPlayer();
 	void Update(std::unordered_map<int, bool> map);
+	void UpdateCamera(mat4 view);
 private:
 	vector3f player_pos;
 	float speed;
