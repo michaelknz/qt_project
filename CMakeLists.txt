@@ -18,7 +18,8 @@ set(project_source
     src/Player.cpp
     src/Texture.cpp
     src/Room_Base.cpp
-    src/Level_Base.cpp)
+    src/Level_Base.cpp
+    src/DataBase.cpp)
     
 set(project_header
     src/main_window.h
@@ -31,7 +32,8 @@ set(project_header
     src/Player.h
     src/Texture.h
     src/Room_Base.h
-    src/Level_Base.h)
+    src/Level_Base.h
+    src/DataBase.h)
 
 set (project_ui
     src/start_screen.ui)
