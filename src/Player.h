@@ -18,9 +18,13 @@ public:
 	void DrawPlayer();
 	void Update(std::unordered_map<int, bool> map);
 	void UpdateCamera(mat4 view);
+	int Get_playerLife();
+	std::string GetCurWeapon();
 private:
 	vector3f player_pos;
 	float speed;
+	int life;
+	std::string cur_weapon;
 	Shader* shader;
 	Mesh* mesh;
 	Texture* texture;

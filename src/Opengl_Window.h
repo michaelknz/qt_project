@@ -12,6 +12,7 @@
 #include "Player.h"
 #include "Room_Base.h"
 #include "Level_Base.h"
+#include "GameGUI.h"
 #include <unordered_map>
 
 
@@ -32,6 +33,7 @@ private:
 	QTimer* timer;
 	Camera* camera;
 	Player* player;
+	GameGUI* gui;
 	mat4 projection;
 	mat4 view;
 	Level_Base* level;

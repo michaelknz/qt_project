@@ -19,7 +19,8 @@ set(project_source
     src/Texture.cpp
     src/Room_Base.cpp
     src/Level_Base.cpp
-    src/DataBase.cpp)
+    src/DataBase.cpp
+    src/GameGUI.cpp)
     
 set(project_header
     src/main_window.h
@@ -33,7 +34,8 @@ set(project_header
     src/Texture.h
     src/Room_Base.h
     src/Level_Base.h
-    src/DataBase.h)
+    src/DataBase.h
+    src/GameGUI.h)
 
 set (project_ui
     src/start_screen.ui)
@@ -54,11 +56,18 @@ file( COPY ${CMAKE_CURRENT_SOURCE_DIR}/src/mapShade.vs DESTINATION ${CMAKE_CURRE
 file( COPY ${CMAKE_CURRENT_SOURCE_DIR}/src/mapShade.fs DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Debug )
 file( COPY ${CMAKE_CURRENT_SOURCE_DIR}/src/mapShade.vs DESTINATION ${CMAKE_CURRENT_BINARY_DIR} )
 file( COPY ${CMAKE_CURRENT_SOURCE_DIR}/src/mapShade.fs DESTINATION ${CMAKE_CURRENT_BINARY_DIR} )
+file( COPY ${CMAKE_CURRENT_SOURCE_DIR}/src/GUItexShade.vs DESTINATION ${CMAKE_CURRENT_BINARY_DIR} )
+file( COPY ${CMAKE_CURRENT_SOURCE_DIR}/src/GUItexShade.fs DESTINATION ${CMAKE_CURRENT_BINARY_DIR} )
+file( COPY ${CMAKE_CURRENT_SOURCE_DIR}/src/GUItexShade.vs DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Debug )
+file( COPY ${CMAKE_CURRENT_SOURCE_DIR}/src/GUItexShade.fs DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Debug )
 file( COPY ${CMAKE_CURRENT_SOURCE_DIR}/res/sheet.png DESTINATION ${CMAKE_CURRENT_BINARY_DIR} )
 file( COPY ${CMAKE_CURRENT_SOURCE_DIR}/res/Hero.png DESTINATION ${CMAKE_CURRENT_BINARY_DIR} )
 file( COPY ${CMAKE_CURRENT_SOURCE_DIR}/res/sheet.png DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Debug )
 file( COPY ${CMAKE_CURRENT_SOURCE_DIR}/res/Hero.png DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Debug )
-
+file( COPY ${CMAKE_CURRENT_SOURCE_DIR}/res/GUI.png DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Debug )
+file( COPY ${CMAKE_CURRENT_SOURCE_DIR}/res/GUI.png DESTINATION ${CMAKE_CURRENT_BINARY_DIR} )
+file( COPY ${CMAKE_CURRENT_SOURCE_DIR}/res/GUIb.png DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Debug )
+file( COPY ${CMAKE_CURRENT_SOURCE_DIR}/res/GUIb.png DESTINATION ${CMAKE_CURRENT_BINARY_DIR} )
 
 target_link_libraries(${PROJECT_NAME}
     PUBLIC

@@ -30,6 +30,8 @@ void gl_Window::initializeGL() {
 	player = new Player("Hero.png", view, projection);
 	level = new Level_Base;
 	level->Init(view, projection);
+
+	gui = new GameGUI(player);
 }
 
 void gl_Window::paintGL() {
@@ -50,6 +52,7 @@ void gl_Window::paintGL() {
 	player->Update(key_cache);
 	player->DrawPlayer();
 
+	gui->DrawPlayerInteface(player);
 }
 
 void gl_Window::Loop() {

@@ -2,9 +2,13 @@
 
 Player::Player(const std::string& filename, mat4 view, mat4 proj) {
 	texture = new Texture(filename.c_str());
+
 	player_pos = vector3f(0.0f, 0.0f, 0.0f);
 	shader = new Shader("playerShade");
-	speed = 0.01f;
+	life = 8;
+	speed = 0.02f;
+	cur_weapon = "small_sword";
+
 	projection = proj;
 	this->view = view;
 	model = Matrix::Translate(player_pos);
@@ -81,4 +85,12 @@ void Player::Update(std::unordered_map<int, bool> map) {
 
 void Player::UpdateCamera(mat4 view) {
 	this->view = view;
+}
+
+int Player::Get_playerLife() {
+	return life;
+}
+
+std::string Player::GetCurWeapon() {
+	return cur_weapon;
 }
