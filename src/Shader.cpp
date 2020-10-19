@@ -38,6 +38,7 @@ std::string Shader::Read_Shader(const std::string& file_name) {
 		getline(file, line);
 		output.append(line + "\n");
 	}
+	file.close();
 	return output;
 }
 

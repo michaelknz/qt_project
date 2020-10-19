@@ -31,7 +31,7 @@ void gl_Window::initializeGL() {
 	level = new Level_Base;
 	level->Init(view, projection);
 
-	gui = new GameGUI(player);
+	gui = new GameGUI(*player);
 }
 
 void gl_Window::paintGL() {
@@ -52,7 +52,7 @@ void gl_Window::paintGL() {
 	player->Update(key_cache);
 	player->DrawPlayer();
 
-	gui->DrawPlayerInteface(player);
+	gui->DrawPlayerInteface(*player);
 }
 
 void gl_Window::Loop() {
@@ -67,6 +67,7 @@ gl_Window::~gl_Window() {
 	delete timer;
 	level->ShutUp();
 	delete level;
+	delete gui;
 }
 
 void gl_Window::Interact_With_Objects() {

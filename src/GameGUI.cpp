@@ -7,7 +7,7 @@ TexCoords::TexCoords(int minx, int maxx, int miny, int maxy) {
 	max_x = maxx;
 }
 
-GameGUI::GameGUI(Player* player) {
+GameGUI::GameGUI(const Player& player) {
 	tile_size = 0.05f;
 	tile_width = tile_size;
 	tile_height = tile_size * 2.0f;
@@ -17,6 +17,7 @@ GameGUI::GameGUI(Player* player) {
 	texture_Shader = new Shader("GUItexShade");
 	vert_back_tile = new float[6 * 5];
 	cur_weapon_tile_vert = new float[6 * 5];
+	life_bar_vert = new float[4 * 5 * 6];
 
 	it_cache["full_life"] = TexCoords(42, 43, 11, 12);
 	it_cache["half_life"] = TexCoords(41, 42, 11, 12);
@@ -25,7 +26,7 @@ GameGUI::GameGUI(Player* player) {
 
 	SetLifeBarVert(player);
 	SetBackgroundTile(tile_width / 2.0f + length_between_tiles * 2.0f, tile_height / 2.0f + length_between_tiles * 4.0f, -1.0f + tile_width / 2.0f + length_between_tiles * 2.0f, 1.0f - tile_height - tile_height / 2.0f - length_between_tiles * 4.0f);
-	SetCurWeaponTile(tile_width / 2.0f + length_between_tiles * 2.0f, tile_height / 2.0f + length_between_tiles * 4.0f, -1.0f + tile_width / 2.0f + length_between_tiles * 2.0f, 1.0f - tile_height - tile_height / 2.0f - length_between_tiles * 4.0f, it_cache[player->GetCurWeapon()]);
+	SetCurWeaponTile(tile_width / 2.0f + length_between_tiles * 2.0f, tile_height / 2.0f + length_between_tiles * 4.0f, -1.0f + tile_width / 2.0f + length_between_tiles * 2.0f, 1.0f - tile_height - tile_height / 2.0f - length_between_tiles * 4.0f, it_cache[player.GetCurWeapon()]);
 
 	life_bar_mesh = new Mesh(life_bar_vert, 4 * 5 * 6);
 	bg_tile_mesh = new Mesh(vert_back_tile, 5 * 6);
@@ -46,9 +47,8 @@ void GameGUI::SetBackgroundTile(float bx, float by, float del_x, float del_y) {
 	vert_back_tile[25] = bx + del_x; vert_back_tile[26] = by + del_y; vert_back_tile[27] = 0.01f; vert_back_tile[28] = max_x; vert_back_tile[29] = max_y;
 }
 
-void GameGUI::SetLifeBarVert(Player* player) {
-	life_bar_vert = new float[4 * 5 * 6];
-	int life = player->Get_playerLife();
+void GameGUI::SetLifeBarVert(const Player& player) {
+	int life = player.Get_playerLife();
 	float minx = -1.0f;
 	float maxx = -1.0f + tile_width;
 	float miny = 1.0f - tile_height;
@@ -86,13 +86,12 @@ void GameGUI::SetLifeBarVert(Player* player) {
 	}
 }
 
-void GameGUI::ResetLifeBarVert(Player* player) {
-	delete[] life_bar_vert;
+void GameGUI::ResetLifeBarVert(const Player& player) {
 	SetLifeBarVert(player);
 	life_bar_mesh->SetVertexBufWithTex(life_bar_vert, 4 * 5 * 6);
 }
 
-void GameGUI::DrawLifeBar(Player* player) {
+void GameGUI::DrawLifeBar(const Player& player) {
 	ResetLifeBarVert(player);
 	texture_Shader->bind();
 	texture->bind();
@@ -102,9 +101,9 @@ void GameGUI::DrawLifeBar(Player* player) {
 	texture_Shader->unbind();
 }
 
-void GameGUI::DrawCurWeapon(Player* player) {
+void GameGUI::DrawCurWeapon(const Player& player) {
 
-	ResetCurWeaponTile(tile_width / 2.0f + length_between_tiles * 2.0f, tile_height / 2.0f + length_between_tiles * 4.0f, -1.0f + tile_width / 2.0f + length_between_tiles * 2.0f, 1.0f - tile_height - tile_height / 2.0f - length_between_tiles * 4.0f, it_cache[player->GetCurWeapon()]);
+	ResetCurWeaponTile(tile_width / 2.0f + length_between_tiles * 2.0f, tile_height / 2.0f + length_between_tiles * 4.0f, -1.0f + tile_width / 2.0f + length_between_tiles * 2.0f, 1.0f - tile_height - tile_height / 2.0f - length_between_tiles * 4.0f, it_cache[player.GetCurWeapon()]);
 
 	texture_Shader->bind();
 
@@ -121,7 +120,7 @@ void GameGUI::DrawCurWeapon(Player* player) {
 	texture_Shader->unbind();
 }
 
-void GameGUI::DrawPlayerInteface(Player* player) {
+void GameGUI::DrawPlayerInteface(const Player& player) {
 	DrawLifeBar(player);
 	DrawCurWeapon(player);
 }
@@ -153,4 +152,6 @@ GameGUI::~GameGUI() {
 	delete texture_Shader;
 	delete[] vert_back_tile;
 	delete[] life_bar_vert;
+	delete cur_weapon_mesh;
+	delete[] cur_weapon_tile_vert;
 }

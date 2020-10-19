@@ -17,16 +17,16 @@ struct TexCoords {
 
 class GameGUI {
 public:
-	GameGUI(Player* player);
+	GameGUI(const Player& player);
 	~GameGUI();
 	void SetBackgroundTile(float bx, float by, float del_x, float del_y);
-	void SetLifeBarVert(Player* player);
+	void SetLifeBarVert(const Player& player);
 	void SetCurWeaponTile(float bx, float by, float del_x, float del_y, TexCoords cur);
-	void ResetLifeBarVert(Player* player);
+	void ResetLifeBarVert(const Player& player);
 	void ResetCurWeaponTile(float bx, float by, float del_x, float del_y, TexCoords cur);
-	void DrawLifeBar(Player* player);
-	void DrawCurWeapon(Player* player);
-	void DrawPlayerInteface(Player* player);
+	void DrawLifeBar(const Player& player);
+	void DrawCurWeapon(const Player& player);
+	void DrawPlayerInteface(const Player& player);
 private:
 	Texture* texture;
 	Texture* textureb;

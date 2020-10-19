@@ -32,6 +32,8 @@ Mesh::~Mesh() {
 }
 
 void Mesh::SetVertexBufWithTex(float* VertexBuf, unsigned int size) {
+	glDeleteBuffers(1, &vbo);
+	glDeleteVertexArrays(1, &vao);
 	BufSize = size;
 	glGenVertexArrays(1, &vao);
 	glGenBuffers(1, &vbo);

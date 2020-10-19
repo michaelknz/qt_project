@@ -11,7 +11,7 @@ Main_Window::Main_Window(QWidget* parent):
 }
 
 Main_Window::~Main_Window() {
-	
+	delete glwnd;
 }
 
 void Main_Window::StartScreebDeleteEvent() {

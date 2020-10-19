@@ -18,6 +18,7 @@ void Room_Base::Init(const std::string& filename, mat4 view, mat4 proj, vector3f
 	texture = new Texture(filename.c_str());
 	shader = new Shader("mapShade");
 	SetRoomMap();
+	verts = new float[Map_height * Map_width * 6 * 5];
 	SetTexMap();
 	SetVerts();
 	mesh = new Mesh(verts, Map_height * Map_width * 6 * 5);
@@ -76,7 +77,6 @@ void Room_Base::SetTexMapUnit(char a, unsigned int minx, unsigned int maxx, unsi
 }
 
 void Room_Base::SetVerts() {
-	verts = new float[Map_height * Map_width * 6 * 5];
 	float del_x = tile_width;
 	float del_y = tile_height;
 	float x = -tile_width * (float)Map_width / 2.0f;
@@ -148,7 +148,6 @@ float Room_Base::GetRoomWidth() const {
 }
 
 void Room_Base::ResetVerts() {
-	delete[] verts;
 	SetVerts();
 }
 

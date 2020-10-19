@@ -87,10 +87,17 @@ void Player::UpdateCamera(mat4 view) {
 	this->view = view;
 }
 
-int Player::Get_playerLife() {
+int Player::Get_playerLife() const {
 	return life;
 }
 
-std::string Player::GetCurWeapon() {
+std::string Player::GetCurWeapon() const {
 	return cur_weapon;
+}
+
+Player::~Player() {
+	delete[] vert;
+	delete mesh;
+	delete shader;
+	delete texture;
 }

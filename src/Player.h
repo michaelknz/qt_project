@@ -12,14 +12,15 @@
 class Player {
 public:
 	Player(const std::string& filename, mat4 view, mat4 proj);
+	~Player();
 	void Move_Player(vector3f vec);
 	vector3f Get_playerPos() const;
 	float Get_playerSpeed() const;
 	void DrawPlayer();
 	void Update(std::unordered_map<int, bool> map);
 	void UpdateCamera(mat4 view);
-	int Get_playerLife();
-	std::string GetCurWeapon();
+	int Get_playerLife() const;
+	std::string GetCurWeapon() const;
 private:
 	vector3f player_pos;
 	float speed;
