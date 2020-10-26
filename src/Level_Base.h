@@ -7,6 +7,10 @@
 #include "Room_Base.h"
 #include "Player.h"
 #include "Camera.h"
+#include "Room_1.h"
+#include "Room_2.h"
+#include "Room_3.h"
+#include "Enemy.h"
 
 struct RoomCoord {
 	RoomCoord(int x = 0, int y = 0);
@@ -29,8 +33,11 @@ public:
 	void CleanRoomCache();
 	void DrawRoom(const Player& player, std::unordered_map<int, bool>& keys);
 	void SetDoors();
+	void SetStartRoom(mat4 view, mat4 projection);
 	void Interact_With_Doors(Player* player, Camera* camera);
 	void UpdateCamera(mat4 view);
+	void UpdateEnemyInRoom(const Player& player);
+	Enemy* GetCurEnemy() const;
 protected:
 	unsigned int level_height;
 	unsigned int level_width;

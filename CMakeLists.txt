@@ -20,7 +20,11 @@ set(project_source
     src/Room_Base.cpp
     src/Level_Base.cpp
     src/DataBase.cpp
-    src/GameGUI.cpp)
+    src/GameGUI.cpp
+    src/Room_1.cpp
+    src/Room_2.cpp
+    src/Room_3.cpp
+    src/Enemy.cpp)
     
 set(project_header
     src/main_window.h
@@ -35,7 +39,11 @@ set(project_header
     src/Room_Base.h
     src/Level_Base.h
     src/DataBase.h
-    src/GameGUI.h)
+    src/GameGUI.h
+    src/Room_1.h
+    src/Room_2.h
+    src/Room_3.h
+    src/Enemy.h)
 
 set (project_ui
     src/start_screen.ui)
@@ -78,6 +86,15 @@ file( COPY ${CMAKE_CURRENT_SOURCE_DIR}/res/sheet.png DESTINATION ${CMAKE_CURRENT
 file( COPY ${CMAKE_CURRENT_SOURCE_DIR}/res/Hero.png DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Release )
 file( COPY ${CMAKE_CURRENT_SOURCE_DIR}/res/GUI.png DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Release )
 file( COPY ${CMAKE_CURRENT_SOURCE_DIR}/res/GUIb.png DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Release )
+file( COPY ${CMAKE_CURRENT_SOURCE_DIR}/res/Enemy.png DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Release )
+file( COPY ${CMAKE_CURRENT_SOURCE_DIR}/res/Enemy.png DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Debug )
+file( COPY ${CMAKE_CURRENT_SOURCE_DIR}/res/Enemy.png DESTINATION ${CMAKE_CURRENT_BINARY_DIR} )
+file( COPY ${CMAKE_CURRENT_SOURCE_DIR}/src/enemyShade.vs DESTINATION ${CMAKE_CURRENT_BINARY_DIR} )
+file( COPY ${CMAKE_CURRENT_SOURCE_DIR}/src/enemyShade.fs DESTINATION ${CMAKE_CURRENT_BINARY_DIR} )
+file( COPY ${CMAKE_CURRENT_SOURCE_DIR}/src/enemyShade.vs DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Debug )
+file( COPY ${CMAKE_CURRENT_SOURCE_DIR}/src/enemyShade.fs DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Debug )
+file( COPY ${CMAKE_CURRENT_SOURCE_DIR}/src/enemyShade.vs DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Release )
+file( COPY ${CMAKE_CURRENT_SOURCE_DIR}/src/enemyShade.fs DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Release )
 
 target_link_libraries(${PROJECT_NAME}
     PUBLIC

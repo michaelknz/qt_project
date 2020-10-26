@@ -5,7 +5,7 @@ Player::Player(const std::string& filename, mat4 view, mat4 proj) {
 
 	player_pos = vector3f(0.0f, 0.0f, 0.0f);
 	shader = new Shader("playerShade");
-	life = 8;
+	life = 8.0f;
 	speed = 0.02f;
 	cur_weapon = "small_sword";
 
@@ -14,12 +14,12 @@ Player::Player(const std::string& filename, mat4 view, mat4 proj) {
 	model = Matrix::Translate(player_pos);
 
 	vert = new float[30];
-	vert[0] = -0.17f; vert[1] = -0.17f; vert[2] = 0.01f; vert[3] = 0.0f; vert[4] = 1.0f - (32.0f / (float)texture->Height());
-	vert[5] = -0.17f; vert[6] = 0.17f; vert[7] = 0.01f; vert[8] = 0.0f; vert[9] = 1.0f;
-	vert[10] = 0.17f; vert[11] = 0.17f; vert[12] = 0.01f; vert[13] = (32.0f / (float)texture->Width()); vert[14] = 1.0f;
-	vert[15] = -0.17f; vert[16] = -0.17f; vert[17] = 0.01f; vert[18] = 0.0f; vert[19] = 1.0f - (32.0f / (float)texture->Height());
-	vert[20] = 0.17f; vert[21] = -0.17f; vert[22] = 0.01f; vert[23] = (32.0f / (float)texture->Width()); vert[24] = 1.0f - (32.0f / (float)texture->Height());
-	vert[25] = 0.17f; vert[26] = 0.17f; vert[27] = 0.01f; vert[28] = (32.0f / (float)texture->Width()); vert[29] = 1.0f;
+	vert[0] = -0.17f; vert[1] = -0.17f; vert[2] = 0.02f; vert[3] = 0.0f; vert[4] = 1.0f - (32.0f / (float)texture->Height());
+	vert[5] = -0.17f; vert[6] = 0.17f; vert[7] = 0.02f; vert[8] = 0.0f; vert[9] = 1.0f;
+	vert[10] = 0.17f; vert[11] = 0.17f; vert[12] = 0.02f; vert[13] = (32.0f / (float)texture->Width()); vert[14] = 1.0f;
+	vert[15] = -0.17f; vert[16] = -0.17f; vert[17] = 0.02f; vert[18] = 0.0f; vert[19] = 1.0f - (32.0f / (float)texture->Height());
+	vert[20] = 0.17f; vert[21] = -0.17f; vert[22] = 0.02f; vert[23] = (32.0f / (float)texture->Width()); vert[24] = 1.0f - (32.0f / (float)texture->Height());
+	vert[25] = 0.17f; vert[26] = 0.17f; vert[27] = 0.02f; vert[28] = (32.0f / (float)texture->Width()); vert[29] = 1.0f;
 
 	mesh = new Mesh(vert, 30);
 
@@ -93,6 +93,10 @@ int Player::Get_playerLife() const {
 
 std::string Player::GetCurWeapon() const {
 	return cur_weapon;
+}
+
+void Player::Is_Attaked(float damage) {
+	life -= damage;
 }
 
 Player::~Player() {

@@ -9,6 +9,7 @@ void Room_Base::Init(const std::string& filename, mat4 view, mat4 proj, vector3f
 	this->view = view;
 	model = Matrix::Translate(room_pos);
 	this->room_pos = room_pos;
+	enemy = new Enemy(view, projection, room_pos);
 	tile_height = 0.15f;
 	tile_width = 0.15f;
 	doors['u'] = -1;
@@ -110,10 +111,12 @@ void Room_Base::DrawRoom() {
 	mesh->Draw_Mesh();
 	texture->unbind();
 	shader->unbind();
+	enemy->DrawEnemy();
 }
 
 void Room_Base::ShutUp() {
 	delete texture;
+	delete enemy;
 	delete mesh;
 	delete shader;
 	delete[] verts;
@@ -203,4 +206,13 @@ unsigned int Room_Base::Get_Room_Height_In_Tiles() const {
 
 void Room_Base::UpdateCamera(mat4 view) {
 	this->view = view;
+	enemy->UpdateCamera(view);
+}
+
+void Room_Base::UpdateEnemy(const Player& player) {
+	enemy->MoveEnemy(player);
+}
+
+Enemy* Room_Base::GetEnemy() const {
+	return enemy;
 }

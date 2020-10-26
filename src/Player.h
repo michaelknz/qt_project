@@ -21,10 +21,11 @@ public:
 	void UpdateCamera(mat4 view);
 	int Get_playerLife() const;
 	std::string GetCurWeapon() const;
+	void Is_Attaked(float damage);
 private:
 	vector3f player_pos;
 	float speed;
-	int life;
+	float life;
 	std::string cur_weapon;
 	Shader* shader;
 	Mesh* mesh;

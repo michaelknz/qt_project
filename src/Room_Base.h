@@ -9,6 +9,7 @@
 #include <string>
 #include <unordered_set>
 #include "Player.h"
+#include "Enemy.h"
 
 struct Coord {
 	float min_x;
@@ -40,10 +41,13 @@ public:
 	unsigned int Get_Room_Height_In_Tiles() const;
 	std::unordered_map<char, int> Get_Doors() const;
 	void UpdateCamera(mat4 view);
+	void UpdateEnemy(const Player& player);
+	Enemy* GetEnemy() const;
 protected:
 	Texture* texture;
 	Mesh* mesh;
 	Shader* shader;
+	Enemy* enemy;
 	unsigned int tile_tex_width;
 	unsigned int tile_tex_height;
 	float* verts;

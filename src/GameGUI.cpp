@@ -48,7 +48,7 @@ void GameGUI::SetBackgroundTile(float bx, float by, float del_x, float del_y) {
 }
 
 void GameGUI::SetLifeBarVert(const Player& player) {
-	int life = player.Get_playerLife();
+	int life = (int)player.Get_playerLife();
 	float minx = -1.0f;
 	float maxx = -1.0f + tile_width;
 	float miny = 1.0f - tile_height;

@@ -33,7 +33,7 @@ void Level_Base::GenLevelMap() {
 	while (cur_col < room_count) {
 		cur_col = 1;
 		memset(level_map, 0, level_height * level_width * sizeof(int));
-		level_map[0] = 1;
+		level_map[0] = rand() % 3 + 1;
 		std::queue<RoomCoord> q;
 		q.push(RoomCoord());
 		while (!q.empty()) {
@@ -48,25 +48,25 @@ void Level_Base::AddRoom(std::queue<RoomCoord>& q, int& cur_col) {
 	RoomCoord next(cur.x + 1, cur.y);
 	if (Check_Room_In_Map(next) && Is_Room_Empty(next) && Check_Room_Neighbors(next) && cur_col < room_count && rand()%2 == 0) {
 		cur_col++;
-		level_map[next.y * level_width + next.x] = 1;
+		level_map[next.y * level_width + next.x] = rand() % 3 + 1;
 		q.push(next);
 	}
 	next = RoomCoord(cur.x - 1, cur.y);
 	if (Check_Room_In_Map(next) && Is_Room_Empty(next) && Check_Room_Neighbors(next) && cur_col < room_count && rand() % 2 == 0) {
 		cur_col++;
-		level_map[next.y * level_width + next.x] = 1;
+		level_map[next.y * level_width + next.x] = rand() % 3 + 1;
 		q.push(next);
 	}
 	next = RoomCoord(cur.x, cur.y + 1);
 	if (Check_Room_In_Map(next) && Is_Room_Empty(next) && Check_Room_Neighbors(next) && cur_col < room_count && rand() % 2 == 0) {
 		cur_col++;
-		level_map[next.y * level_width + next.x] = 1;
+		level_map[next.y * level_width + next.x] = rand() % 3 + 1;
 		q.push(next);
 	}
 	next = RoomCoord(cur.x, cur.y - 1);
 	if (Check_Room_In_Map(next) && Is_Room_Empty(next) && Check_Room_Neighbors(next) && cur_col < room_count && rand() % 2 == 0) {
 		cur_col++;
-		level_map[next.y * level_width + next.x] = 1;
+		level_map[next.y * level_width + next.x] = rand() % 3 + 1;
 		q.push(next);
 	}
 }
@@ -83,19 +83,19 @@ bool Level_Base::Check_Room_In_Map(RoomCoord room) {
 bool Level_Base::Check_Room_Neighbors(RoomCoord room) {
 	int output = 0;
 	RoomCoord next(room.x + 1, room.y);
-	if (Check_Room_In_Map(next) && level_map[next.y * level_width + next.x] == 1) {
+	if (Check_Room_In_Map(next) && level_map[next.y * level_width + next.x] > 0) {
 		output++;
 	}
 	next = RoomCoord(room.x - 1, room.y);
-	if (Check_Room_In_Map(next) && level_map[next.y * level_width + next.x] == 1) {
+	if (Check_Room_In_Map(next) && level_map[next.y * level_width + next.x] > 0) {
 		output++;
 	}
 	next = RoomCoord(room.x, room.y + 1);
-	if (Check_Room_In_Map(next) && level_map[next.y * level_width + next.x] == 1) {
+	if (Check_Room_In_Map(next) && level_map[next.y * level_width + next.x] > 0) {
 		output++;
 	}
 	next = RoomCoord(room.x, room.y - 1);
-	if (Check_Room_In_Map(next) && level_map[next.y * level_width + next.x] == 1) {
+	if (Check_Room_In_Map(next) && level_map[next.y * level_width + next.x] > 0) {
 		output++;
 	}
 
@@ -123,15 +123,22 @@ void Level_Base::ShutUp() {
 }
 
 void Level_Base::SetRoomCache(mat4 view, mat4 projection) {
-	cur_room = new Room_Base;
-	cur_room->Init("sheet.png", view, projection, vector3f(0.0f, 0.0f, 0.0f));
-	room_cache[0] = cur_room;
+	SetStartRoom(view, projection);
 	for (int i = 1; i < level_height * level_width; ++i) {
 		if (level_map[i] == 1) {
-			room_cache[i] = new Room_Base;
+			room_cache[i] = new Room_1;
+			room_cache[i]->Init("sheet.png", view, projection, vector3f((float)(i % level_width) * cur_room->GetRoomWidth(), (float)(i / level_width) * (-cur_room->GetRoomHeight()), 0.0f));
+		}
+		else if (level_map[i] == 2) {
+			room_cache[i] = new Room_2;
+			room_cache[i]->Init("sheet.png", view, projection, vector3f((float)(i % level_width) * cur_room->GetRoomWidth(), (float)(i / level_width) * (-cur_room->GetRoomHeight()), 0.0f));
+		}
+		else if (level_map[i] == 3) {
+			room_cache[i] = new Room_3;
 			room_cache[i]->Init("sheet.png", view, projection, vector3f((float)(i % level_width) * cur_room->GetRoomWidth(), (float)(i / level_width) * (-cur_room->GetRoomHeight()), 0.0f));
 		}
 	}
+	room_cache[0] = cur_room;
 }
 
 void Level_Base::CleanRoomCache() {
@@ -143,17 +150,17 @@ void Level_Base::CleanRoomCache() {
 
 void Level_Base::SetDoors() {
 	for (int i = 0; i < level_height * level_width; ++i) {
-		if (level_map[i] == 1) {
-			if (Check_Room_In_Map(RoomCoord(i % level_width + 1, i / level_width)) && level_map[i + 1] == 1) {
+		if (level_map[i] > 0) {
+			if (Check_Room_In_Map(RoomCoord(i % level_width + 1, i / level_width)) && level_map[i + 1] > 0) {
 				room_cache[i]->SetDoor('r');
 			}
-			if (Check_Room_In_Map(RoomCoord(i % level_width - 1, i / level_width)) && level_map[i - 1] == 1) {
+			if (Check_Room_In_Map(RoomCoord(i % level_width - 1, i / level_width)) && level_map[i - 1] > 0) {
 				room_cache[i]->SetDoor('l');
 			}
-			if (Check_Room_In_Map(RoomCoord(i % level_width, i / level_width - 1)) && level_map[i - level_width] == 1) {
+			if (Check_Room_In_Map(RoomCoord(i % level_width, i / level_width - 1)) && level_map[i - level_width] > 0) {
 				room_cache[i]->SetDoor('u');
 			}
-			if (Check_Room_In_Map(RoomCoord(i % level_width, i / level_width + 1)) && level_map[i + level_width] == 1) {
+			if (Check_Room_In_Map(RoomCoord(i % level_width, i / level_width + 1)) && level_map[i + level_width] > 0) {
 				room_cache[i]->SetDoor('d');
 			}
 		}
@@ -206,4 +213,26 @@ void Level_Base::UpdateCamera(mat4 view) {
 	for (auto i = room_cache.begin(); i != room_cache.end(); ++i) {
 		(*i).second->UpdateCamera(view);
 	}
+}
+
+void Level_Base::SetStartRoom(mat4 view, mat4 projection) {
+	if (level_map[0] == 1) {
+		cur_room = new Room_1;
+	}
+	else if (level_map[0] == 2) {
+		cur_room = new Room_2;
+	}
+	else if (level_map[0] == 3) {
+		cur_room = new Room_3;
+	}
+	cur_room->Init("sheet.png", view, projection, vector3f(0.0f, 0.0f, 0.0f));
+	cur_room->GetEnemy()->SetPosition(vector3f(cur_room->GetRoomWidth() / 2.0f, 0.0f, 0.0f));
+}
+
+void Level_Base::UpdateEnemyInRoom(const Player& player) {
+	cur_room->UpdateEnemy(player);
+}
+
+Enemy* Level_Base::GetCurEnemy() const {
+	return cur_room->GetEnemy();
 }

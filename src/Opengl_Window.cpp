@@ -47,10 +47,12 @@ void gl_Window::paintGL() {
 		}
 	}
 
+	level->UpdateEnemyInRoom(*player);
 	level->DrawRoom(*player, key_cache);
 
 	player->Update(key_cache);
 	player->DrawPlayer();
+	Attak();
 
 	gui->DrawPlayerInteface(*player);
 }
@@ -74,3 +76,6 @@ void gl_Window::Interact_With_Objects() {
 	level->Interact_With_Doors(player, camera);
 }
 
+void gl_Window::Attak() {
+	level->GetCurEnemy()->Attak(*player);
+}

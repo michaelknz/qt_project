@@ -15,6 +15,9 @@ mat4::mat4() {
 
 vector3f Matrix::normalize(const vector3f& vec) {
 	vector3f out;
+	if (IsNullVector(vec)) {
+		return vec;
+	}
 	out.mas[0] = vec.mas[0] / sqrt(vec.mas[0] * vec.mas[0] + vec.mas[1] * vec.mas[1] + vec.mas[2] * vec.mas[2]);
 	out.mas[1] = vec.mas[1] / sqrt(vec.mas[0] * vec.mas[0] + vec.mas[1] * vec.mas[1] + vec.mas[2] * vec.mas[2]);
 	out.mas[2] = vec.mas[2] / sqrt(vec.mas[0] * vec.mas[0] + vec.mas[1] * vec.mas[1] + vec.mas[2] * vec.mas[2]);
@@ -147,4 +150,17 @@ mat4 operator *(const mat4& mat1, const mat4& mat2) {
 
 float Matrix::Length2D(vector3f vec1, vector3f vec2) {
 	return sqrt((vec1.mas[0] - vec2.mas[0]) * (vec1.mas[0] - vec2.mas[0]) + (vec1.mas[1] - vec2.mas[1]) * (vec1.mas[1] - vec2.mas[1]));
+}
+
+bool Matrix::IsNullVector(vector3f vec) {
+	if (vec.mas[0] == 0.0f && vec.mas[1] == 0.0f && vec.mas[2] == 0.0f) {
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
+float Matrix::VectorModule(vector3f vec) {
+	return sqrt(vec.mas[0] * vec.mas[0] + vec.mas[1] * vec.mas[1] + vec.mas[2] * vec.mas[2]);
 }

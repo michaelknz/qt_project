@@ -23,6 +23,7 @@ public:
 	gl_Window(QWidget* parent = 0);
 	~gl_Window();
 	void Interact_With_Objects();
+	void Attak();
 	std::unordered_map<int, bool> key_cache;
 private slots:
 	void Loop();
