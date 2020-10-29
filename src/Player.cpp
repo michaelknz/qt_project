@@ -22,6 +22,9 @@ Player::Player(const std::string& filename, mat4 view, mat4 proj) {
 	vert[25] = 0.17f; vert[26] = 0.17f; vert[27] = 0.02f; vert[28] = (32.0f / (float)texture->Width()); vert[29] = 1.0f;
 
 	mesh = new Mesh(vert, 30);
+	decal = new Decal(view, projection);
+	AttakRad = 0.3f;
+	damage = 0.5f;
 
 	animS = 1;
 	animP = 0;
@@ -54,6 +57,8 @@ void Player::DrawPlayer() {
 
 	texture->unbind();
 	shader->unbind();
+
+	decal->Update(player_pos);
 }
 
 void Player::Update(std::unordered_map<int, bool> map) {
@@ -85,6 +90,7 @@ void Player::Update(std::unordered_map<int, bool> map) {
 
 void Player::UpdateCamera(mat4 view) {
 	this->view = view;
+	decal->UpdateCamera(view);
 }
 
 int Player::Get_playerLife() const {
@@ -97,6 +103,11 @@ std::string Player::GetCurWeapon() const {
 
 void Player::Is_Attaked(float damage) {
 	life -= damage;
+	decal->SetAlpha();
+}
+
+float Player::Get_playerDamage() {
+	return damage;
 }
 
 Player::~Player() {
@@ -104,4 +115,9 @@ Player::~Player() {
 	delete mesh;
 	delete shader;
 	delete texture;
+	delete decal;
+}
+
+float Player::GetAttakRad() {
+	return AttakRad;
 }

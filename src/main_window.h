@@ -14,8 +14,9 @@ class Main_Window : public QMainWindow {
 public:
 	explicit Main_Window(QWidget *parent = 0);
 	~Main_Window();
-	void keyPressEvent(QKeyEvent* event);
-	void keyReleaseEvent(QKeyEvent* event);
+	void keyPressEvent(QKeyEvent* event) override;
+	void keyReleaseEvent(QKeyEvent* event) override;
+	void mouseReleaseEvent(QMouseEvent* event) override;
 public slots:
 	void StartScreebDeleteEvent();
 

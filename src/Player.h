@@ -5,6 +5,7 @@
 #include "Shader.h"
 #include "Mesh.h"
 #include "Texture.h"
+#include "Decal.h"
 #include <string>
 #include <unordered_map>
 #include <iostream>
@@ -22,6 +23,8 @@ public:
 	int Get_playerLife() const;
 	std::string GetCurWeapon() const;
 	void Is_Attaked(float damage);
+	float Get_playerDamage();
+	float GetAttakRad();
 private:
 	vector3f player_pos;
 	float speed;
@@ -29,6 +32,7 @@ private:
 	std::string cur_weapon;
 	Shader* shader;
 	Mesh* mesh;
+	Decal* decal;
 	Texture* texture;
 	mat4 model;
 	mat4 view;
@@ -36,5 +40,7 @@ private:
 	float* vert;
 	int animS;
 	int animP;
+	float AttakRad;
+	float damage;
 };
 #endif

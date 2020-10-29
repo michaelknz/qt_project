@@ -43,6 +43,7 @@ public:
 	void UpdateCamera(mat4 view);
 	void UpdateEnemy(const Player& player);
 	Enemy* GetEnemy() const;
+	void AttakEnemy(Player& player);
 protected:
 	Texture* texture;
 	Mesh* mesh;

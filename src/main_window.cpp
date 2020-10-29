@@ -28,3 +28,10 @@ void Main_Window::keyReleaseEvent(QKeyEvent* event) {
 	glwnd->key_cache[event->key()] = false;
 	QMainWindow::keyReleaseEvent(event);
 }
+
+void Main_Window::mouseReleaseEvent(QMouseEvent* event) {
+	if (event->button() == Qt::LeftButton) {
+		glwnd->key_cache[Qt::LeftButton] = true;
+	}
+	QMainWindow::mouseReleaseEvent(event);
+}

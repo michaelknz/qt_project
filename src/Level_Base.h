@@ -37,6 +37,7 @@ public:
 	void Interact_With_Doors(Player* player, Camera* camera);
 	void UpdateCamera(mat4 view);
 	void UpdateEnemyInRoom(const Player& player);
+	void AttakCurEnemy(Player& player);
 	Enemy* GetCurEnemy() const;
 protected:
 	unsigned int level_height;

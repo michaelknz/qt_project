@@ -236,3 +236,7 @@ void Level_Base::UpdateEnemyInRoom(const Player& player) {
 Enemy* Level_Base::GetCurEnemy() const {
 	return cur_room->GetEnemy();
 }
+
+void Level_Base::AttakCurEnemy(Player& player) {
+	cur_room->AttakEnemy(player);
+}

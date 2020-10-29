@@ -9,6 +9,7 @@ gl_Window::gl_Window(QWidget* parent) :
 	key_cache[Qt::Key_D] = false;
 	key_cache[Qt::Key_A] = false;
 	key_cache[Qt::Key_E] = false;
+	key_cache[Qt::LeftButton] = false;
 }
 
 void gl_Window::initializeGL() {
@@ -45,6 +46,11 @@ void gl_Window::paintGL() {
 			level->UpdateCamera(view);
 			player->UpdateCamera(view);
 		}
+	}
+
+	if (key_cache[Qt::LeftButton] == true) {
+		level->AttakCurEnemy(*player);
+		key_cache[Qt::LeftButton] = false;
 	}
 
 	level->UpdateEnemyInRoom(*player);

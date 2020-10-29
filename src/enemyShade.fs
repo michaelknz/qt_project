@@ -7,9 +7,10 @@ uniform vec3 color;
 uniform int scale;
 uniform float plus;
 uniform float del;
+uniform float alpha;
 
 void main(){
     float rx=((float(TexCoord.x)-del)*(scale)+del);
     vec2 tex=vec2(rx+plus,TexCoord.y);
-    FragColor=texture(Texture,tex)*vec4(color,1.0f);
+    FragColor=texture(Texture,tex)*vec4(color,alpha);
 }

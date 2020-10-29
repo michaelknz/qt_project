@@ -213,6 +213,10 @@ void Room_Base::UpdateEnemy(const Player& player) {
 	enemy->MoveEnemy(player);
 }
 
+void Room_Base::AttakEnemy(Player& player) {
+	enemy->Is_Attaked(player);
+}
+
 Enemy* Room_Base::GetEnemy() const {
 	return enemy;
 }
