@@ -6,6 +6,7 @@
 #include "Shader.h"
 #include "Mesh.h"
 #include "Player.h"
+#include "Chest.h"
 
 struct TexCoords {
 	int min_x;
@@ -27,15 +28,35 @@ public:
 	void DrawLifeBar(const Player& player);
 	void DrawCurWeapon(const Player& player);
 	void DrawPlayerInteface(const Player& player);
+	void SetCurChest(Chest ch);
+	void SetChestBgVert(float bx, float by);
+	void DrawChest(float mouse_x, float mouse_y, bool is_pushed);
+	void SetColorVert(float bx, float by);
+	Chest GetCurChest();
+	void SetChestItem(std::string it);
+	void SetLetters();
+	void SetLetterVert();
+	void SetColorEndVert();
+	void SetOkVert();
+	void DrawEndScreen();
+	void SetIsPush(bool flag);
 private:
 	Texture* texture;
 	Texture* textureb;
 	std::unordered_map<std::string, TexCoords> it_cache;
+	std::unordered_map<char, TexCoords> letters;
+	bool is_pushed;
 	Shader* color_Shader;
 	Shader* texture_Shader;
 	Mesh* life_bar_mesh;
+	Mesh* bg_chest_tile_mesh;
 	Mesh* bg_tile_mesh;
 	Mesh* cur_weapon_mesh;
+	Mesh* color_tile_mesh;
+	Mesh* letter_end_mesh;
+	Mesh* end_ok_mesh;
+	Mesh* color_tile_end_mesh;
+	Chest cur_chest;
 	float tile_size;
 	float tile_width;
 	float tile_height;
@@ -43,6 +64,11 @@ private:
 	float* vert_back_tile;
 	float* life_bar_vert;
 	float* cur_weapon_tile_vert;
+	float* vert_chest_back_tile;
+	float* vert_color_tile;
+	float* vert_letters;
+	float* vert_color_tile_end;
+	float* vert_end_ok;
 };
 
 #endif

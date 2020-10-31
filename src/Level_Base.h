@@ -11,6 +11,7 @@
 #include "Room_2.h"
 #include "Room_3.h"
 #include "Enemy.h"
+#include "DataBase.h"
 
 struct RoomCoord {
 	RoomCoord(int x = 0, int y = 0);
@@ -22,7 +23,7 @@ class Level_Base {
 public:
 	Level_Base();
 	~Level_Base();
-	void Init(mat4 view, mat4 projection);
+	void Init(mat4 view, mat4 projection, bool is_continue);
 	void GenLevelMap();
 	void AddRoom(std::queue<RoomCoord>& q, int& cur_col);
 	bool Check_Room_In_Map(RoomCoord room);
@@ -38,7 +39,10 @@ public:
 	void UpdateCamera(mat4 view);
 	void UpdateEnemyInRoom(const Player& player);
 	void AttakCurEnemy(Player& player);
+	void SetChestItem(Chest ch);
+	Chest Interact_With_Chests(Player* player);
 	Enemy* GetCurEnemy() const;
+	void SaveLevelMap();
 protected:
 	unsigned int level_height;
 	unsigned int level_width;

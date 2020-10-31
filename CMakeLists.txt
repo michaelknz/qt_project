@@ -25,7 +25,8 @@ set(project_source
     src/Room_2.cpp
     src/Room_3.cpp
     src/Enemy.cpp
-    src/Decal.cpp)
+    src/Decal.cpp
+    src/Chest.cpp)
     
 set(project_header
     src/main_window.h
@@ -45,7 +46,8 @@ set(project_header
     src/Room_2.h
     src/Room_3.h
     src/Enemy.h
-    src/Decal.h)
+    src/Decal.h
+    src/Chest.h)
 
 set (project_ui
     src/start_screen.ui)
@@ -103,6 +105,12 @@ file( COPY ${CMAKE_CURRENT_SOURCE_DIR}/src/decalShade.vs DESTINATION ${CMAKE_CUR
 file( COPY ${CMAKE_CURRENT_SOURCE_DIR}/src/decalShade.fs DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Debug )
 file( COPY ${CMAKE_CURRENT_SOURCE_DIR}/src/decalShade.vs DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Release )
 file( COPY ${CMAKE_CURRENT_SOURCE_DIR}/src/decalShade.fs DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Release )
+file( COPY ${CMAKE_CURRENT_SOURCE_DIR}/src/color_Shade.vs DESTINATION ${CMAKE_CURRENT_BINARY_DIR} )
+file( COPY ${CMAKE_CURRENT_SOURCE_DIR}/src/color_Shade.fs DESTINATION ${CMAKE_CURRENT_BINARY_DIR} )
+file( COPY ${CMAKE_CURRENT_SOURCE_DIR}/src/color_Shade.vs DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Debug )
+file( COPY ${CMAKE_CURRENT_SOURCE_DIR}/src/color_Shade.fs DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Debug )
+file( COPY ${CMAKE_CURRENT_SOURCE_DIR}/src/color_Shade.vs DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Release )
+file( COPY ${CMAKE_CURRENT_SOURCE_DIR}/src/color_Shade.fs DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Release )
 
 target_link_libraries(${PROJECT_NAME}
     PUBLIC

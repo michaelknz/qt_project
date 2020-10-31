@@ -54,7 +54,7 @@
     <string>Start</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="settings">
+  <widget class="QPushButton" name="contin">
    <property name="geometry">
     <rect>
      <x>675</x>
@@ -70,7 +70,7 @@
     </font>
    </property>
    <property name="text">
-    <string>settings</string>
+    <string>continue</string>
    </property>
   </widget>
   <widget class="QPushButton" name="quit">

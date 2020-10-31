@@ -25,6 +25,8 @@ public:
 	void Is_Attaked(float damage);
 	float Get_playerDamage();
 	float GetAttakRad();
+	void SetCurWeapon(std::string weap);
+	std::string GetCurWeapon();
 private:
 	vector3f player_pos;
 	float speed;

@@ -7,6 +7,7 @@ Room_Base::Room_Base() {
 void Room_Base::Init(const std::string& filename, mat4 view, mat4 proj, vector3f room_pos) {
 	projection = proj;
 	this->view = view;
+	srand(time(0));
 	model = Matrix::Translate(room_pos);
 	this->room_pos = room_pos;
 	enemy = new Enemy(view, projection, room_pos);
@@ -19,6 +20,7 @@ void Room_Base::Init(const std::string& filename, mat4 view, mat4 proj, vector3f
 	texture = new Texture(filename.c_str());
 	shader = new Shader("mapShade");
 	SetRoomMap();
+	SetChests();
 	verts = new float[Map_height * Map_width * 6 * 5];
 	SetTexMap();
 	SetVerts();
@@ -219,4 +221,32 @@ void Room_Base::AttakEnemy(Player& player) {
 
 Enemy* Room_Base::GetEnemy() const {
 	return enemy;
+}
+
+void Room_Base::SetChests() {
+	SetSwords();
+	for (int i = 0; i < Map_height * Map_width; ++i) {
+		if (Map[i] == 'D') {
+			chests.push_back(Chest(swords[rand() % swords.size()], vector3f((float)(i % Map_width) * tile_width, (float)(i / Map_width) * tile_height, 0.0f)));
+		}
+	}
+}
+
+std::vector<Chest> Room_Base::GetSwords() {
+	return chests;
+}
+
+void Room_Base::SetSwords() {
+	swords.push_back("sword");
+	swords.push_back("sharped_sword");
+	swords.push_back("old_sword");
+}
+
+void Room_Base::SetChestItem(Chest ch) {
+	for (int i = 0; i < chests.size(); ++i) {
+		if (chests[i].pos.mas[0] == ch.pos.mas[0] && chests[i].pos.mas[1] == ch.pos.mas[1] && chests[i].pos.mas[2] == ch.pos.mas[2]) {
+			chests[i].item = ch.item;
+			break;
+		}
+	}
 }

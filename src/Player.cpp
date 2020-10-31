@@ -121,3 +121,11 @@ Player::~Player() {
 float Player::GetAttakRad() {
 	return AttakRad;
 }
+
+void Player::SetCurWeapon(std::string weap) {
+	cur_weapon = weap;
+}
+
+std::string Player::GetCurWeapon() {
+	return cur_weapon;
+}

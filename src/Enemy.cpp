@@ -119,7 +119,7 @@ void Enemy::Is_Attaked(Player& player) {
 		float dell = Matrix::VectorModule(del);
 		if (dell <= player.GetAttakRad()) {
 			life -= player.Get_playerDamage();
+			decal->SetAlpha();
 		}
-		decal->SetAlpha();
 	}
 }

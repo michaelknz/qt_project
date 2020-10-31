@@ -13,7 +13,7 @@ Level_Base::~Level_Base() {
 
 }
 
-void Level_Base::Init(mat4 view, mat4 projection) {
+void Level_Base::Init(mat4 view, mat4 projection, bool is_continue) {
 
 	srand(time(0));
 	level_height = 4;
@@ -22,8 +22,13 @@ void Level_Base::Init(mat4 view, mat4 projection) {
 	cur_room_pos = 0;
 
 	level_map = new int[level_height * level_width];
-	memset(level_map, 0, level_height * level_width*sizeof(int));
-	GenLevelMap();
+	memset(level_map, 0, level_height * level_width * sizeof(int));
+	if (is_continue) {
+		DataBase::Get_mas(level_map, level_height * level_width);
+	}
+	else {
+		GenLevelMap();
+	}
 	SetRoomCache(view, projection);
 	SetDoors();
 }
@@ -239,4 +244,25 @@ Enemy* Level_Base::GetCurEnemy() const {
 
 void Level_Base::AttakCurEnemy(Player& player) {
 	cur_room->AttakEnemy(player);
+}
+
+Chest Level_Base::Interact_With_Chests(Player* player) {
+	vector3f player_pos_in_room = cur_room->Player_Pos_In_Room(player);
+	player_pos_in_room.mas[2] = 0.0f;
+	std::vector<Chest> ch = cur_room->GetSwords();
+	for (int i = 0; i < ch.size(); ++i) {
+		if (Matrix::Length2D(ch[i].pos, player_pos_in_room) <= 1.5f * cur_room->Get_Tile_Width()) {
+			return ch[i];
+		}
+	}
+	Chest out("NULL", vector3f(0.0f, 0.0f, 0.0f));
+	return out;
+}
+
+void Level_Base::SetChestItem(Chest ch) {
+	cur_room->SetChestItem(ch);
+}
+
+void Level_Base::SaveLevelMap() {
+	DataBase::Save_mas(level_map, level_height * level_width);
 }

@@ -1,6 +1,6 @@
 #include "Opengl_Window.h"
 
-gl_Window::gl_Window(QWidget* parent) :
+gl_Window::gl_Window(bool is_continue, QWidget* parent) :
 	QOpenGLWidget(parent)
 {
 	camera = new Camera();
@@ -9,7 +9,14 @@ gl_Window::gl_Window(QWidget* parent) :
 	key_cache[Qt::Key_D] = false;
 	key_cache[Qt::Key_A] = false;
 	key_cache[Qt::Key_E] = false;
+	key_cache[Qt::Key_Escape] = false;
 	key_cache[Qt::LeftButton] = false;
+
+	chest_is_drawn = false;
+	is_pushed = false;
+	is_change = true;
+	is_quit = false;
+	this->is_continue = is_continue;
 }
 
 void gl_Window::initializeGL() {
@@ -30,7 +37,7 @@ void gl_Window::initializeGL() {
 
 	player = new Player("Hero.png", view, projection);
 	level = new Level_Base;
-	level->Init(view, projection);
+	level->Init(view, projection, is_continue);
 
 	gui = new GameGUI(*player);
 }
@@ -39,13 +46,36 @@ void gl_Window::paintGL() {
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+	if (player->Get_playerLife() <= 0.0f) {
+		gui->DrawEndScreen();
+		float x = (2.0f / 1600.0f) * mouse_x - 1.0f;
+		float y = ((2.0f / 800.0f) * mouse_y - 1.0f) * (-1.0f);
+		if (y <= -0.25f && y >= -0.38f && x <= 0.08f && x >= -0.08f && is_pushed) {
+			gui->SetIsPush(true);
+			is_quit = true;
+		}
+		if (y <= -0.25f && y >= -0.38f && x <= 0.08f && x >= -0.08f && !is_pushed && is_quit) {
+			gui->SetIsPush(false);
+			emit Quit();
+		}
+		return;
+	}
+
 	if (key_cache[Qt::Key_E] == true) {
-		Interact_With_Objects();
+		Chest ch = Interact_With_Objects();
 		if (camera->Is_On_Update()) {
 			view = Matrix::lookat(camera->Get_CameraPos(), camera->Get_CameraFront(), camera->Get_CameraUp());
 			level->UpdateCamera(view);
 			player->UpdateCamera(view);
 		}
+		if (ch.item != "NULL") {
+			gui->SetCurChest(ch);
+			chest_is_drawn = true;
+		}
+	}
+
+	if (key_cache[Qt::Key_Escape] == true) {
+		chest_is_drawn = false;
 	}
 
 	if (key_cache[Qt::LeftButton] == true) {
@@ -61,6 +91,16 @@ void gl_Window::paintGL() {
 	Attak();
 
 	gui->DrawPlayerInteface(*player);
+
+	if (chest_is_drawn) {
+		gui->DrawChest(mouse_x, mouse_y, is_pushed);
+		float x = (2.0f / 1600.0f) * mouse_x - 1.0f;
+		float y = ((2.0f / 800.0f) * mouse_y - 1.0f) * (-1.0f);
+		if (y <= 0.2f && y >= -0.2f && x <= 0.1f && x >= -0.1f && is_pushed && is_change) {
+			ChangeItems();
+			is_change = false;
+		}
+	}
 }
 
 void gl_Window::Loop() {
@@ -70,6 +110,7 @@ void gl_Window::Loop() {
 }
 
 gl_Window::~gl_Window() {
+	level->SaveLevelMap();
 	delete player;
 	delete camera;
 	delete timer;
@@ -78,10 +119,29 @@ gl_Window::~gl_Window() {
 	delete gui;
 }
 
-void gl_Window::Interact_With_Objects() {
+Chest gl_Window::Interact_With_Objects() {
 	level->Interact_With_Doors(player, camera);
+	Chest out = level->Interact_With_Chests(player);
+	return out;
 }
 
 void gl_Window::Attak() {
 	level->GetCurEnemy()->Attak(*player);
+}
+
+void gl_Window::SetMousePos(int x, int y, bool is_pushed) {
+	mouse_x = (float)x;
+	mouse_y = (float)y;
+	this->is_pushed = is_pushed;
+}
+
+void gl_Window::ChangeItems() {
+	std::string tmp = player->GetCurWeapon();
+	player->SetCurWeapon(gui->GetCurChest().item);
+	gui->SetChestItem(tmp);
+	level->SetChestItem(gui->GetCurChest());
+}
+
+void gl_Window::SetIsChange() {
+	is_change = true;
 }

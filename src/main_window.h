@@ -17,9 +17,10 @@ public:
 	void keyPressEvent(QKeyEvent* event) override;
 	void keyReleaseEvent(QKeyEvent* event) override;
 	void mouseReleaseEvent(QMouseEvent* event) override;
+	void mousePressEvent(QMouseEvent* event) override;
 public slots:
 	void StartScreebDeleteEvent();
-
+	void End();
 
 private:
 	Start_Screen* st;

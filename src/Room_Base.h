@@ -7,9 +7,13 @@
 #include "Matrix.h"
 #include <unordered_map>
 #include <string>
+#include <vector>
+#include <ctime>
+#include <cstdlib>
 #include <unordered_set>
 #include "Player.h"
 #include "Enemy.h"
+#include "Chest.h"
 
 struct Coord {
 	float min_x;
@@ -44,6 +48,10 @@ public:
 	void UpdateEnemy(const Player& player);
 	Enemy* GetEnemy() const;
 	void AttakEnemy(Player& player);
+	void SetChests();
+	void SetSwords();
+	void SetChestItem(Chest ch);
+	std::vector<Chest> GetSwords();
 protected:
 	Texture* texture;
 	Mesh* mesh;
@@ -64,6 +72,8 @@ protected:
 	float tile_height;
 	std::unordered_set<char> walls;
 	vector3f room_pos;
+	std::vector<Chest> chests;
+	std::vector<std::string> swords;
 };
 
 #endif
