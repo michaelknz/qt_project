@@ -59,7 +59,9 @@ void Enemy::DrawEnemy() {
 		mesh->Draw_Mesh();
 		texture->unbind();
 		shader->unbind();
-		alpha -= del_Alpha;
+		if (alpha > 0.0f) {
+			alpha -= del_Alpha;
+		}
 	}
 	decal->Update(position);
 }
