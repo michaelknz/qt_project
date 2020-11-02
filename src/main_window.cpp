@@ -28,26 +28,34 @@ void Main_Window::StartScreebDeleteEvent() {
 }
 
 void Main_Window::keyPressEvent(QKeyEvent* event) {
-	glwnd->key_cache[event->key()] = true;
+	if (glwnd != nullptr) {
+		glwnd->key_cache[event->key()] = true;
+	}
 	QMainWindow::keyPressEvent(event);
 }
 
 void Main_Window::keyReleaseEvent(QKeyEvent* event) {
-	glwnd->key_cache[event->key()] = false;
+	if (glwnd != nullptr) {
+		glwnd->key_cache[event->key()] = false;
+	}
 	QMainWindow::keyReleaseEvent(event);
 }
 
 void Main_Window::mouseReleaseEvent(QMouseEvent* event) {
-	if (event->button() == Qt::LeftButton) {
-		glwnd->key_cache[Qt::LeftButton] = true;
+	if (glwnd != nullptr) {
+		if (event->button() == Qt::LeftButton) {
+			glwnd->key_cache[Qt::LeftButton] = true;
+		}
+		glwnd->SetMousePos(event->pos().x(), event->pos().y(), false);
+		glwnd->SetIsChange();
 	}
-	glwnd->SetMousePos(event->pos().x(), event->pos().y(), false);
-	glwnd->SetIsChange();
 	QMainWindow::mouseReleaseEvent(event);
 }
 
 void Main_Window::mousePressEvent(QMouseEvent* event) {
-	glwnd->SetMousePos(event->pos().x(), event->pos().y(), true);
+	if (glwnd != nullptr) {
+		glwnd->SetMousePos(event->pos().x(), event->pos().y(), true);
+	}
 	QMainWindow::mouseMoveEvent(event);
 }
 

@@ -4,6 +4,14 @@ Start_Screen::Start_Screen(QWidget* parent):
 	QWidget(parent)
 {
 	ui.setupUi(this);
+	QImage bg;
+	bg.load("StartBackground.png");
+	bg = bg.scaled(1600, 800, Qt::IgnoreAspectRatio);
+	ui.color->setPixmap(QPixmap::fromImage(bg));
+	ui.color->stackUnder(ui.title);
+	QPalette palette = ui.title->palette();
+	palette.setColor(ui.title->foregroundRole(), Qt::white);
+	ui.title->setPalette(palette);
 	if (!(DataBase::Have_DataBase())) {
 		ui.contin->setDisabled(true);
 	}

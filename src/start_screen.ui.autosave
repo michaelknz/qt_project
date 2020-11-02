@@ -111,6 +111,11 @@
     <string>TextLabel</string>
    </property>
   </widget>
+  <zorder>quit</zorder>
+  <zorder>start</zorder>
+  <zorder>title</zorder>
+  <zorder>color</zorder>
+  <zorder>contin</zorder>
  </widget>
  <resources/>
  <connections/>
